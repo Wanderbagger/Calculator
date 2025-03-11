@@ -23,7 +23,7 @@ public class CalculatorController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", personDAO.index());
-        return "people/index";
+        return "index";
     }
 
     @GetMapping("/{id}")

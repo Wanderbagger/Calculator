@@ -1,22 +1,59 @@
 package ru.shlyakhov.practice.models;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 
 public class Calculator {
-    @NotEmpty(message = "Cell should not be empty")
-    private double a;
-    @NotEmpty(message = "Cell should not be empty")
-    private double b;
-    @NotEmpty(message = "Cell should not be empty")
-    @AssertTrue()
-    private char operator;
 
-    boolean isOperator(char c) { // распознавание операторов арифметических действий
+
+    protected String recognizeExpression(String line) { // распознавание строки в списки чисел и знаков
+        ArrayList<String> numbers = new ArrayList<>();
+        ArrayList<Character> operators = new ArrayList<>();
+        while (line.contains("(") && line.contains(")")) { // вычисление внутри скобок
+            line = findBrackets(line);
+        }
+        int end = line.length();
+        for (int i = line.length() - 1; i >= 0; i--) { // перебор с конца строки до начала в целях поиска унарных минусов
+            char charAt = line.charAt(i);
+            if (isOperator(charAt) || i == 0) {
+                if (charAt == '-' && (i == 0)) { // дошли до начала строки и первый знак унарный минус
+                    numbers.add(0, "-" + line.substring(i + 1, end));
+                    break;
+                }
+                if (i == 0) { // дошли до начала строки
+                    numbers.add(0, line.substring(0, end));
+                    break;
+                } else if (charAt == '-' && isOperator(line.charAt(i - 1))) { // дошли до унарного минуса
+                    operators.add(0, line.charAt(i - 1));
+                    numbers.add(0, line.substring(i, end));
+                    i--;
+                } else { // дошли до оператора
+                    operators.add(0, charAt);
+                    numbers.add(0, line.substring(i + 1, end));
+                }
+                end = i; // конец подстроки - координата оператора
+            }
+        }
+        return String.valueOf(solveExpression(numbers, operators));
+    }
+
+    String findBrackets(String line) { // вычисляем значение выражения внутри скобок и возвращаем строку с полученным результатом на месте скобок
+        int begin = 0;
+        for (int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) == '(') {
+                begin = i;
+            } else if (line.charAt(i) == ')')
+                return line.substring(0, begin) + recognizeExpression(line.substring(begin + 1, i)) + line.substring(i + 1);
+        }
+        return line;
+    }
+
+    private boolean isOperator(char c) { // распознавание операторов арифметических действий
         return c == '+' || c == '-' || c == '*' || c == '/';
     }
 
-    double convertData(String data) { // Конвертирование распознанного числа из String в double
+
+    private double convertData(String data) { // Конвертирование распознанного числа из String в double
         String[] splitData = new String[2];
         double result;
         if (data.contains(".")) {
@@ -37,7 +74,7 @@ public class Calculator {
         return result;
     }
 
-    int convertInt(String part) {  // Конвертирование распознанного целого числа или целой части числа из String в int
+    private int convertInt(String part) {  // Конвертирование распознанного целого числа или целой части числа из String в int
         int intPart = 0;
         for (int i = 0; i < part.length(); i++) {
             char charAt = part.charAt(i);
@@ -48,7 +85,7 @@ public class Calculator {
         return intPart;
     }
 
-    double convertDouble(String part) { // Конвертирование распознанной дробной части числа из String в double
+    private double convertDouble(String part) { // Конвертирование распознанной дробной части числа из String в double
         if (part.length() == 1) {
             return convertInt(part.substring(0, 1)) * 0.1; // 1 знак после запятой
         } else if (part.length() == 2) {
@@ -62,44 +99,13 @@ public class Calculator {
         }
     }
 
-    double roundDouble(double number) { // округление числа до 2 знаков после запятой
+    private double roundDouble(double number) { // округление числа до 2 знаков после запятой
         number *= 100;
         number = Math.round(number);
         return number / 100;
     }
 
-    String recognizeExpression(String line) { // распознавание строки в списки чисел и знаков
-        ArrayList<String> numbers = new ArrayList<>();
-        ArrayList<Character> operators = new ArrayList<>();
-        while (line.contains("(") && line.contains(")")) { // вычисление внутри скобок
-            line = findBrackets(line);
-        }
-        int end = line.length();
-        for (int i = line.length() - 1; i >= 0; i--) { // перебор с конца строки до начала в целях поиска унарных минусов
-            char charAt = line.charAt(i);
-            if (isOperator(charAt) || i == 0) {
-                if (charAt == '-' && (i == 0)) { // долшли до начала строки и первый знак унарный минус
-                    numbers.add(0, "-" + line.substring(i + 1, end));
-                    break;
-                }
-                if (i == 0) { // дошли до начала строки
-                    numbers.add(0, line.substring(0, end));
-                    break;
-                } else if (charAt == '-' && isOperator(line.charAt(i - 1))) { // дошли до унарного минуса
-                    operators.add(0, line.charAt(i - 1));
-                    numbers.add(0, line.substring(i, end));
-                    i--;
-                } else { // дошли до оператора
-                    operators.add(0, charAt);
-                    numbers.add(0, line.substring(i + 1, end));
-                }
-                end = i; // конец подстроки - координата оператора
-            }
-        }
-        return solveExpression(numbers, operators);
-    }
-
-    String solveExpression(ArrayList<String> numbers, ArrayList<Character> operators) { // решение выражений в распзнанных списках
+    private double solveExpression(ArrayList<String> numbers, ArrayList<Character> operators) { // решение выражений в распознанных списках
         double result = 0;
         for (int i = 0; i < operators.size(); i++) {
             if (operators.get(i) == '*' || operators.get(i) == '/') { // первоочередное решение умножений и делений
@@ -119,10 +125,10 @@ public class Calculator {
                 i--;
             }
         }
-        return String.valueOf(result);
+        return result;
     }
 
-    double calculate(double firstNumber, double lastNumber, char operator) { // выполнение арифметических действий
+    private double calculate(double firstNumber, double lastNumber, char operator) { // выполнение арифметических действий
         double sum = 0;
         if (operator == '+') {
             sum = firstNumber + lastNumber;
@@ -139,21 +145,5 @@ public class Calculator {
         }
         sum = roundDouble(sum);
         return sum;
-    }
-
-    String findBrackets(String line) {
-        int begin = 0;
-        for (int i = 0; i < line.length(); i++) {
-            if (line.charAt(i) == '(') {
-                begin = i;
-            } else if (line.charAt(i) == ')')
-                return line.substring(0, begin) + recognizeExpression(line.substring(begin + 1, i)) + line.substring(i + 1);
-        }
-        return "";
-    }
-
-    void start(String line) throws  {
-
-        System.out.println("RESULT: " + recognizeExpression(line));
     }
 }

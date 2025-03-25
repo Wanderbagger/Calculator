@@ -2,7 +2,7 @@ package ru.shlyakhov.practice.models;
 
 import javax.validation.constraints.NotEmpty;
 
-public class Model {
+public class CalculatorModel {
 
     @NotEmpty
     private String expression = "2 + 2 * 2 - 1";

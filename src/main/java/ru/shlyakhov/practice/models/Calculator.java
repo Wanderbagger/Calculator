@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Calculator {
 
 
-    protected String recognizeExpression(String line) { // распознавание строки в списки чисел и знаков
+    public String recognizeExpression(String line) { // распознавание строки в списки чисел и знаков
         ArrayList<String> numbers = new ArrayList<>();
         ArrayList<Character> operators = new ArrayList<>();
         while (line.contains("(") && line.contains(")")) { // вычисление внутри скобок

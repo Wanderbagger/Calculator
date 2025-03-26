@@ -4,7 +4,8 @@ import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 
 public class Calculator {
-
+    public Calculator() {
+    }
 
     public String recognizeExpression(String line) { // распознавание строки в списки чисел и знаков
         ArrayList<String> numbers = new ArrayList<>();

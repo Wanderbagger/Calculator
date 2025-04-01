@@ -1,37 +1,37 @@
 package ru.shlyakhov.practice.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.shlyakhov.practice.models.Calculator;
-import ru.shlyakhov.practice.models.CalculatorModel;
-
-import javax.servlet.http.HttpServletRequest;
+import ru.shlyakhov.practice.dao.CalculatorDAO;
 
 
 @Controller
-@RequestMapping
+@RequestMapping("/calculations")
 public class CalculatorController {
+    CalculatorDAO calculatorDAO;
 
-
-
-    @GetMapping("/result")
-    public String result(@RequestParam(value = "expression", required = false) String expression,
-    Model model) {
-        Calculator calculator = new Calculator();
-        String result = calculator.recognizeExpression("2+3");
-        model.addAttribute("messageResult", "Result: " + result);
-        return "result";
+    @Autowired
+    public CalculatorController(CalculatorDAO dao) {
+    this.calculatorDAO = dao;
     }
-    @GetMapping("/index")
-    public String inputExpression(Model model){
-        model.addAttribute("calculator", new CalculatorModel());
-        return "index";
-    }
-    @PostMapping()
-    public String calculate(@ModelAttribute("calculator") CalculatorModel calculatorModel){
 
-        return "redirect:/result";
+
+    @GetMapping()
+    public String index(Model model){
+        model.addAttribute("calculations", calculatorDAO.index());
+        return "calculations/index";
     }
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model){
+        model.addAttribute("calculation", calculatorDAO.show(id));
+        return "calculations/show";
+    }
+
+
+
+
+
 
 }

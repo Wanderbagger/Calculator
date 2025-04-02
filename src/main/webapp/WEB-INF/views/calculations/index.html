@@ -6,12 +6,13 @@
 </head>
 <body>
 
-    <div th:each="calculation : ${calculations}">
-        <a th:text="${calculation.getId() + ') '}">id</a>
-        <a th:text="${calculation.getExpression() + ' ='}">expression</a>
+<div th:each="calculation : ${calculations}">
+    <a th:text="${calculation.getId() + ') '}">id</a>
+    <a th:text="${calculation.getExpression() + ' ='}">expression</a>
 
-        <a th:text="${calculation.getResult()}">result</a>
-    </div>
+    <a th:text="${calculation.getResult()}">result</a>
+
+</div>
 
 </body>
 </html>

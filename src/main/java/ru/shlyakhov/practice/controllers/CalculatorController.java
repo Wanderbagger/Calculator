@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.shlyakhov.practice.dao.CalculatorDAO;
+import ru.shlyakhov.practice.models.Calculation;
 
 
 @Controller
@@ -14,24 +15,31 @@ public class CalculatorController {
 
     @Autowired
     public CalculatorController(CalculatorDAO dao) {
-    this.calculatorDAO = dao;
+        this.calculatorDAO = dao;
     }
 
 
     @GetMapping()
-    public String index(Model model){
+    public String index(Model model) {
         model.addAttribute("calculations", calculatorDAO.index());
         return "calculations/index";
     }
+
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("calculation", calculatorDAO.show(id));
         return "calculations/show";
     }
 
+    @GetMapping("/input")
+    public String inputExpression(@ModelAttribute("calculation") Calculation calculation) {
+        return "calculations/input";
+    }
 
-
-
-
-
+    @PostMapping()
+    public String create(@ModelAttribute("calculation") Calculation calculation) {
+        calculatorDAO.save(calculation);
+        System.out.println(calculation);
+        return "redirect:/calculations";
+    }
 }

@@ -138,8 +138,7 @@ public class Calculator {
             sum = firstNumber + lastNumber;
         } else if (operator == '*') {
             sum = firstNumber * lastNumber;
-        }
-        else if (operator == '/') {
+        } else if (operator == '/') {
             if (lastNumber == 0) {
                 throw new ArithmeticException("Division by zero is prohibited"); // ошибка при делении на ноль
             } else sum = firstNumber / lastNumber;

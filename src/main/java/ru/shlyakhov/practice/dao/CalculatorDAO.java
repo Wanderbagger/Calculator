@@ -2,9 +2,11 @@ package ru.shlyakhov.practice.dao;
 
 import org.springframework.stereotype.Component;
 import ru.shlyakhov.practice.models.Calculation;
+import ru.shlyakhov.practice.models.Calculator;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class CalculatorDAO {
     private static int CALCULATION_COUNTER = 0;
@@ -22,9 +24,13 @@ public class CalculatorDAO {
         return calculations;
     }
 
-    public Calculation show(int id){
+    public Calculation show(int id) {
         return calculations.get(id);
     }
 
-
+    public void save(Calculation calculation) {
+        calculation.setId(++CALCULATION_COUNTER);
+        calculation.setResult(new Calculator().recognizeExpression(calculation.getExpression()));
+        calculations.add(calculation);
+    }
 }

@@ -11,6 +11,9 @@ public class Calculation {
         this.result = new Calculator().recognizeExpression(expression);
     }
 
+    public Calculation() {
+    }
+
     public int getId() {
         return id;
     }
@@ -33,5 +36,14 @@ public class Calculation {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "Calculation{" +
+                "id=" + id +
+                ", expression='" + expression + '\'' +
+                ", result='" + result + '\'' +
+                '}';
     }
 }

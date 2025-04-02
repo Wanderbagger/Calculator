@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/calculations}" th:object="${calculation}">
+    <label for="name">Enter expression: </label>
+    <input type="text" th:field="*{expression}" id="name"/>
+    <br/>
+    <input type="submit" value="Calculate!"/>
+</form>
+0
+</body>
+</html>

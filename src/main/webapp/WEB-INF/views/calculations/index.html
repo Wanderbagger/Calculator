@@ -5,14 +5,16 @@
     <title>All calculations</title>
 </head>
 <body>
-
+RESULTS OF CALCULATIONS:
+<br>
+<br>
 <div th:each="calculation : ${calculations}">
     <a th:text="${calculation.getId() + ') '}">id</a>
     <a th:text="${calculation.getExpression() + ' ='}">expression</a>
 
     <a th:text="${calculation.getResult()}">result</a>
-
 </div>
-
+<br>
+<a href="calculations/input">CALCULATOR</a>
 </body>
 </html>

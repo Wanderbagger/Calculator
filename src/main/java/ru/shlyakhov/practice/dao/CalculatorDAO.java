@@ -2,7 +2,7 @@ package ru.shlyakhov.practice.dao;
 
 import org.springframework.stereotype.Component;
 import ru.shlyakhov.practice.models.Calculation;
-import ru.shlyakhov.practice.models.Calculator;
+import ru.shlyakhov.practice.calculator.Calculator;
 
 import java.util.ArrayList;
 import java.util.List;

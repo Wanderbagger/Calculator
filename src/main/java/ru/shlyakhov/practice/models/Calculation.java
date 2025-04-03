@@ -1,5 +1,7 @@
 package ru.shlyakhov.practice.models;
 
+import ru.shlyakhov.practice.calculator.Calculator;
+
 public class Calculation {
     private int id;
     private String expression;

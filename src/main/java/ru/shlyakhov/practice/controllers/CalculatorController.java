@@ -33,6 +33,7 @@ public class CalculatorController {
 
     @GetMapping("/input")
     public String inputExpression(@ModelAttribute("calculation") Calculation calculation) {
+
         return "calculations/input";
     }
 

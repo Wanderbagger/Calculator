@@ -48,4 +48,6 @@ public class Calculation {
                 ", result='" + result + '\'' +
                 '}';
     }
+
+
 }

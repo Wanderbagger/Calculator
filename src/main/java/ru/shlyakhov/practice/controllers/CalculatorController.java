@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.shlyakhov.practice.dao.CalculatorDAO;
 import ru.shlyakhov.practice.models.Calculation;
 
-
 @Controller
 @RequestMapping("/calculations")
 public class CalculatorController {
@@ -18,29 +17,30 @@ public class CalculatorController {
         this.calculatorDAO = dao;
     }
 
+    /*
+        @GetMapping()
+        public String index(Model model) {
+            model.addAttribute("calculationsArchive", calculatorDAO.index());
+            return "calculations/index";
+        }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("calculations", calculatorDAO.index());
-        return "calculations/index";
-    }
-
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("calculation", calculatorDAO.show(id));
-        return "calculations/show";
-    }
-
+        @GetMapping("/{id}")
+        public String show(@PathVariable("id") int id, Model model) {
+            model.addAttribute("calculation", calculatorDAO.show(id));
+            return "calculations/show";
+        }
+    */
     @GetMapping("/input")
-    public String inputExpression(@ModelAttribute("calculation") Calculation calculation) {
-
+    public String inputExpression(@ModelAttribute("calculation") Calculation calculation, Model model) {
+        model.addAttribute("calculations", calculatorDAO.index());
+        model.addAttribute("calculationsArchive", calculatorDAO.archive());
         return "calculations/input";
     }
 
     @PostMapping()
     public String create(@ModelAttribute("calculation") Calculation calculation) {
         calculatorDAO.save(calculation);
-        System.out.println(calculation);
-        return "redirect:/calculations";
+        return "redirect:/calculations/input";
     }
+
 }

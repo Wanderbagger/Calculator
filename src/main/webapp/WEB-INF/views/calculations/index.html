@@ -8,7 +8,7 @@
 RESULTS OF CALCULATIONS:
 <br>
 <br>
-<div th:each="calculation : ${calculations}">
+<div th:each="calculation : ${calculationsArchive}">
     <a th:text="${calculation.getId() + ') '}">id</a>
     <a th:text="${calculation.getExpression() + ' ='}">expression</a>
 
@@ -16,5 +16,7 @@ RESULTS OF CALCULATIONS:
 </div>
 <br>
 <a href="calculations/input">CALCULATOR</a>
+
+
 </body>
 </html>

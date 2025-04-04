@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New person</title>
+    <title>Double calculator</title>
 </head>
 <body>
 
@@ -12,6 +12,26 @@
     <br/>
     <input type="submit" value="Calculate!"/>
 </form>
+<br>
 
+Result:
+
+<br>
+<div th:each="calculation : ${calculations}">
+    <a th:text="${calculation.getResult()}">result</a>
+</div>
+<br>
+
+View all results
+
+<br>
+<div th:each="calculation : ${calculationsArchive}">
+    <a th:text="${calculation.getId() + ') '}">id</a>
+    <a th:text="${calculation.getExpression() + ' ='}">expression</a>
+
+    <a th:text="${calculation.getResult()}">result</a>
+</div>
+<br>
+<br>
 </body>
 </html>

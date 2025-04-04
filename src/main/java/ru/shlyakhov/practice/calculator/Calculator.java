@@ -73,7 +73,7 @@ public class Calculator {
         for (int i = line.length() - 1; i >= 0; i--) { // перебор с конца строки до начала в целях поиска унарных минусов
             char charAt = line.charAt(i);
             if (isOperator(charAt) || i == 0) {
-                if (charAt == '-' && (i == 0)) { // долшли до начала строки и первый знак унарный минус
+                if (charAt == '-' && (i == 0)) { // дошли до начала строки и первый знак унарный минус
                     numbers.add(0, "-" + line.substring(i + 1, end));
                     break;
                 }
@@ -94,7 +94,7 @@ public class Calculator {
         return solveExpression(numbers, operators);
     }
 
-    public String solveExpression(ArrayList<String> numbers, ArrayList<Character> operators) { // решение выражений в распзнанных списках
+    public String solveExpression(ArrayList<String> numbers, ArrayList<Character> operators) { // решение выражений в распознанных списках
         double result = 0;
         for (int i = 0; i < operators.size(); i++) {
             if (operators.get(i) == '*' || operators.get(i) == '/') { // первоочередное решение умножений и делений

@@ -150,6 +150,4 @@ public class Calculator {
         new Validator(line);
         System.out.println("RESULT: " + recognizeExpression(line));
     }
-
-
 }

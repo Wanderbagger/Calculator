@@ -14,21 +14,18 @@
 </form>
 <br>
 
-Result:
-
-<br>
-<div th:each="calculation : ${calculations}">
-    <a th:text="${calculation.getResult()}">result</a>
+<div th:each="validation : ${validations}">
+    <a th:text="${validation}">validation</a>
 </div>
-<br>
+
+<p>Result is: <span th:text="${calculation.getResult()}">calculation</span></p>
 
 View all results
 
 <br>
-<div th:each="calculation : ${calculationsArchive}">
+<div th:each="calculation : ${calculationsArchive}"> //
     <a th:text="${calculation.getId() + ') '}">id</a>
     <a th:text="${calculation.getExpression() + ' ='}">expression</a>
-
     <a th:text="${calculation.getResult()}">result</a>
 </div>
 <br>

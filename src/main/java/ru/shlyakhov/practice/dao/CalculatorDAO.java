@@ -1,30 +1,35 @@
 package ru.shlyakhov.practice.dao;
 
 import org.springframework.stereotype.Component;
+import ru.shlyakhov.practice.calculator.Validator;
 import ru.shlyakhov.practice.models.Calculation;
 import ru.shlyakhov.practice.calculator.Calculator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class CalculatorDAO {
     private static int calculationCounter = 0;
-    private List<Calculation> calculations;
+    private Calculation currentCalculation;
     private List<Calculation> calculationsArchive = new ArrayList<>();
+    private Set<String> validatations = new HashSet<>();
 
     {
-        calculations = new ArrayList<>();
-        calculations.add(new Calculation(0, "0"));
-
+        currentCalculation = new Calculation(0, "0");
     }
 
-    public List<Calculation> index() {
-        return calculations;
+    public Calculation index() {
+        return currentCalculation;
     }
 
     public List<Calculation> archive() {
         return calculationsArchive;
+    }
+    public Set<String> validate() {
+        return validatations;
     }
 
     /*
@@ -33,10 +38,15 @@ public class CalculatorDAO {
         }
     */
     public void save(Calculation calculation) {
-        calculation.setId(++calculationCounter);
-        calculation.setResult(new Calculator().recognizeExpression(calculation.getExpression()));
-        calculations.set(0, calculation);
-        calculationsArchive.add(calculation);
-        System.out.println("ARCHIVE:  " + calculationsArchive);
+        validatations = new Validator(calculation.getExpression()).validate();
+        if(validatations.isEmpty()){
+            calculation.setId(++calculationCounter);
+            calculation.setResult(new Calculator().recognizeExpression(calculation.getExpression()));
+            currentCalculation =  calculation;
+            calculationsArchive.add(calculation);
+            System.out.println("ARCHIVE:  " + calculationsArchive);
+        } else {
+            System.out.println("VALIDATIONS:  " + validatations);
+        }
     }
 }

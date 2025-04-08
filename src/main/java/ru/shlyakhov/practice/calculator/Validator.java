@@ -1,33 +1,37 @@
 package ru.shlyakhov.practice.calculator;
 
-import ru.shlyakhov.practice.calculator.exceptions.InputDataException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Validator {
     private final String line;
+    Set<String> validations = new HashSet<>();
 
-    public Validator(String line) throws InputDataException {
+    public Validator(String line) {
         this.line = line;
-        validate();
     }
 
-    public void validate() throws InputDataException {
-        if (isEmpty()) throw new InputDataException("The string is Empty");
-        else if (containsLetter()) throw new InputDataException("The string contains letter");
-        else if (containsNoDigits()) throw new InputDataException("The string contains no digits");
-        else if (containsNoOperators()) throw new InputDataException("The string contains no operators");
+    public Set<String> validate() {
+        if (isEmpty()) validations.add("The string is Empty");
+        else if (containsLetter()) validations.add("The string contains letter");
+        else if (containsNoDigits()) validations.add("The string contains no digits");
+        else if (containsNoOperators()) validations.add("The string contains no operators");
         else if (isSpecialCharacter(line.charAt(0)) && line.charAt(0) != '-')
-            throw new InputDataException("The string starts with an invalid character");
+            validations.add("The string starts with an invalid character");
         else if (isSpecialCharacter(line.charAt(line.length() - 1)))
-            throw new InputDataException("The string ends with an invalid character");
+            validations.add("The string ends with an invalid character");
         else if (containsIncorrectSequence())
-            throw new InputDataException("The string contains an incorrect sequence of characters");
-        else if (containsDoubleDot()) throw new InputDataException("The string contains a number with two dots");
+            validations.add("The string contains an incorrect sequence of characters");
+        else if (containsDoubleDot()) validations.add("The string contains a number with two dots");
         else if (containsIncorrectBrackets())
-            throw new InputDataException("The string contains incorrect brackets number");
+            validations.add("The string contains incorrect brackets number");
         else if (containsIncorrectSequenceWithBrackets())
-            throw new InputDataException("The string contains incorrect  brackets sequence");
+            validations.add("The string contains incorrect  brackets sequence");
         else if (containsIncorrectSequenceWithBrackets())
-            throw new InputDataException("The string contains incorrect  brackets sequence");
+            validations.add("The string contains incorrect  brackets sequence");
+        return validations;
     }
 
     private boolean isSpecialCharacter(char c) {

@@ -2,10 +2,15 @@ package ru.shlyakhov.practice.models;
 
 import ru.shlyakhov.practice.calculator.Calculator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Calculation {
     private int id;
     private String expression;
     private String result;
+    private Set<String> validations = new HashSet<>();
+
 
     public Calculation(int id, String expression) {
         this.id = id;
@@ -49,5 +54,11 @@ public class Calculation {
                 '}';
     }
 
+    public Set<String> getValidations() {
+        return validations;
+    }
 
+    public void setValidations(Set<String> validations) {
+        this.validations = validations;
+    }
 }

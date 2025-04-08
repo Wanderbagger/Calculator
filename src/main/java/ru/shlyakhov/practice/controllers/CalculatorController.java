@@ -17,23 +17,11 @@ public class CalculatorController {
         this.calculatorDAO = dao;
     }
 
-    /*
-        @GetMapping()
-        public String index(Model model) {
-            model.addAttribute("calculationsArchive", calculatorDAO.index());
-            return "calculations/index";
-        }
-
-        @GetMapping("/{id}")
-        public String show(@PathVariable("id") int id, Model model) {
-            model.addAttribute("calculation", calculatorDAO.show(id));
-            return "calculations/show";
-        }
-    */
     @GetMapping("/input")
     public String inputExpression(@ModelAttribute("calculation") Calculation calculation, Model model) {
-        model.addAttribute("calculations", calculatorDAO.index());
+        model.addAttribute("calculation", calculatorDAO.index());
         model.addAttribute("calculationsArchive", calculatorDAO.archive());
+        model.addAttribute("validations", calculatorDAO.validate());
         return "calculations/input";
     }
 
